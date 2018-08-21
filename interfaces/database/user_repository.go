@@ -41,10 +41,11 @@ func (repo *UserRepository) FindById(identifier int) (user domain.User, err erro
 	user.ID = id
 	user.FirstName = firstName
 	user.LastName = lastName
+	user.Build()
 	return
 }
 
-func (repo *UserRepository) FindAll() (users []domain.User, err error) {
+func (repo *UserRepository) FindAll() (users []*domain.User, err error) {
 	rows, err := repo.Query("SELECT id, first_name, last_name FROM users")
 	defer rows.Close()
 	if err != nil {
@@ -62,7 +63,7 @@ func (repo *UserRepository) FindAll() (users []domain.User, err error) {
 			FirstName: firstName,
 			LastName:  lastName,
 		}
-		users = append(users, user)
+		users = append(users, user.Build())
 	}
 	return
 }
