@@ -1,0 +1,17 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=sample
+    volumes:
+      - ./db/00_ddl:/docker-entrypoint-initdb.d/
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "80:80"
+    links:
+      - db
